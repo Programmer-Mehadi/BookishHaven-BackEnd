@@ -14,7 +14,20 @@ const getTenBooks = async (req: Request, res: Response) => {
     data: result,
   });
 };
+const addBook = async (req: Request, res: Response) => {
+  console.log(req.body);
+  const data = req.body;
+  const result = await BookService.addBookToDB(data);
+  sendResponse<IBook>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message:
+      result === null ? "No Book found !" : "Books retrieved successfully",
+    data: result,
+  });
+};
 
 export const BookController = {
   getTenBooks,
-}
+  addBook,
+};
