@@ -15,14 +15,12 @@ const getTenBooks = async (req: Request, res: Response) => {
   });
 };
 const addBook = async (req: Request, res: Response) => {
-  console.log(req.body);
-  const data = req.body;
-  const result = await BookService.addBookToDB(data);
+  const { bookData } = req.body;
+  const result = await BookService.addBookToDB(bookData);
   sendResponse<IBook>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message:
-      result === null ? "No Book found !" : "Books retrieved successfully",
+    message: result === null ? "No Book Added !" : "Books Added successfully !",
     data: result,
   });
 };

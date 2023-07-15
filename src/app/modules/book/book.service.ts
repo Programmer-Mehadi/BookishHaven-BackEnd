@@ -7,7 +7,9 @@ const getTenBooks = async (): Promise<IBook[] | null> => {
   return result;
 };
 const addBookToDB = async (data: IBook): Promise<IBook | null> => {
+
   const result = await Book.create(data);
+
   return result;
 };
 
