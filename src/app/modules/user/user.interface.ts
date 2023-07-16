@@ -8,6 +8,7 @@ export type IUser = {
     tokenText: string;
     validateTime: Date;
   };
+  
 };
 
 export type UserModel = Model<IUser, Record<string, undefined>>;

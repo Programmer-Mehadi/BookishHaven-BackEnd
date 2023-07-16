@@ -12,10 +12,17 @@ const createReview = async (data: {
   bookId: Types.ObjectId;
 } | null> => {
   const result = await Review.create(data);
+  return result;
+};
 
+const getAllReviews = async (id: string): Promise<object | null> => {
+  const result = await Review.find({
+    bookId: id,
+  }).populate('userId');
   return result;
 };
 
 export const ReviewService = {
   createReview,
+  getAllReviews,
 };

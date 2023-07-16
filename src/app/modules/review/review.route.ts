@@ -3,5 +3,5 @@ import { ReviewController } from "./review.controller";
 const router = express.Router();
 
 router.post("/create-review", ReviewController.createReview);
-// router.post("/get-all-reviews/:id", UserController.signUp);
+router.get("/all-reviews/:id", ReviewController.getAllReviews);
 export const ReviewsRoutes = router;

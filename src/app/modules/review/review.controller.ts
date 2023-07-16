@@ -7,9 +7,19 @@ import { IReview } from "./review.interface";
 
 const createReview = async (req: Request, res: Response) => {
   const { review } = req.body;
-  console.log("reviewData", review);
   const result = await ReviewService.createReview(review);
   sendResponse<IReview>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message:
+      result === null ? "No Review Added !" : "Review Added Successfully",
+    data: result,
+  });
+};
+const getAllReviews = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const result = await ReviewService.getAllReviews(id as string);
+  sendResponse<object | null>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message:
@@ -20,4 +30,5 @@ const createReview = async (req: Request, res: Response) => {
 
 export const ReviewController = {
   createReview,
+  getAllReviews,
 };

@@ -7,7 +7,6 @@ import { UserService } from "./user.service";
 
 const signIn = async (req: Request, res: Response) => {
   const { userData } = req.body.user;
-  console.log("userData", userData);
   const result = await UserService.signIn(userData);
   sendResponse<IUser>(res, {
     statusCode: httpStatus.OK,
