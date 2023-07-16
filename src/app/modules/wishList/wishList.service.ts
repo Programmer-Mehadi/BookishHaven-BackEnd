@@ -44,6 +44,7 @@ const getAllWishList = async (id: string): Promise<object[] | null> => {
   const result = await WishList.find({
     userId: id,
   });
+
   return result;
 };
 

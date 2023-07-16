@@ -18,7 +18,7 @@ const createWishList = async (req: Request, res: Response) => {
 };
 const getAllWishList = async (req: Request, res: Response) => {
   const { id } = req.body;
-  console.log(id);
+
   const result = await WishListService.getAllWishList(id?.id as string);
   sendResponse<object | null>(res, {
     statusCode: httpStatus.OK,

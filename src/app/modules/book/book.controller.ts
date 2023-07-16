@@ -25,6 +25,19 @@ const getSingleBook = async (req: Request, res: Response) => {
     data: result,
   });
 };
+const deleteSingleBook = async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const { data } = req.body;
+  console.log(req.params,data);
+  const result = await BookService.deleteSingleBook(data, id);
+  sendResponse<IBook | null | object>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message:
+      result === null ? "Cannot delete Book !" : "Books deleted successfully",
+    data: result,
+  });
+};
 const getTenBooks = async (req: Request, res: Response) => {
   const result = await BookService.getTenBooks();
   sendResponse<IBook[]>(res, {
@@ -77,4 +90,5 @@ export const BookController = {
   getAllBooks,
   getSingleBook,
   editSingleBook,
+  deleteSingleBook,
 };

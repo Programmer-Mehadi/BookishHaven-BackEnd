@@ -1,11 +1,10 @@
-import { Types } from "mongoose";
+import httpStatus from "http-status";
+import ApiError from "../../../errors/ApiError";
 import { IBookFilter } from "../../../interfaces/comon";
+import { User } from "../user/user.model";
 import { IBook } from "./book.interface";
 import { Book } from "./book.model";
-import { User } from "../user/user.model";
-
 const editSingleBook = async (data: object): Promise<IBook | null> => {
-
   const token = data.token as string;
 
   const userData = await User.findOne({
@@ -39,6 +38,26 @@ const getSingleBook = async (id: string): Promise<IBook | null> => {
   });
   return result;
 };
+const deleteSingleBook = async (
+  data: object,
+  id: string
+): Promise<IBook | null | object | undefined> => {
+  const find = await User.findOne({
+    "token.tokenText": data.token,
+  });
+
+  if (find) {
+    if (find?._id.toString() === data?.uid) {
+      const result = await Book.findByIdAndDelete(id);
+      console.log(find, data,id);
+      return result;
+    } else {
+      new ApiError(httpStatus.UNAUTHORIZED, "No Authorized");
+    }
+  } else {
+    return null;
+  }
+};
 // get all last 10 books
 const getTenBooks = async (): Promise<IBook[] | null> => {
   const result = await Book.find({}).sort({ createdAt: -1 }).limit(10);
@@ -62,4 +81,5 @@ export const BookService = {
   getAllBooks,
   getSingleBook,
   editSingleBook,
+  deleteSingleBook,
 };
