@@ -28,7 +28,7 @@ const getSingleBook = async (req: Request, res: Response) => {
 const deleteSingleBook = async (req: Request, res: Response) => {
   const id = req.params.id;
   const { data } = req.body;
-  console.log(req.params,data);
+  console.log(req.params, data);
   const result = await BookService.deleteSingleBook(data, id);
   sendResponse<IBook | null | object>(res, {
     statusCode: httpStatus.OK,
@@ -61,6 +61,31 @@ const getAllBooks = async (req: Request, res: Response) => {
     andConditions.push({
       publicationDate: { $regex: `^${resQuery?.year}-` },
     });
+  }
+  if (resQuery?.name !== "") {
+    const newConditions = {
+      $or: [
+        {
+          author: {
+            $regex: `^${resQuery?.name}`,
+            $options : 'i'
+          },
+        },
+        {
+          title: {
+            $regex: `^${resQuery?.name}`,
+            $options : 'i'
+          },
+        },
+        {
+          genre: {
+            $regex: `^${resQuery?.name}`,
+            $options : 'i'
+          },
+        },
+      ],
+    };
+    andConditions.push(newConditions);
   }
   const whereConditions =
     andConditions.length > 0 ? { $and: andConditions } : {};
