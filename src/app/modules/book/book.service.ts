@@ -1,10 +1,20 @@
 import httpStatus from "http-status";
 import ApiError from "../../../errors/ApiError";
-import { IBookFilter } from "../../../interfaces/comon";
+import { IBookFilter } from "../../../interfaces/common";
 import { User } from "../user/user.model";
 import { IBook } from "./book.interface";
 import { Book } from "./book.model";
-const editSingleBook = async (data: object): Promise<IBook | null> => {
+const editSingleBook = async (data: {
+  token: string;
+  uid: string;
+  genre: string;
+  publicationDate: string;
+  title: string;
+  author: string;
+  image: string;
+  authorId: string;
+  _id: string;
+}): Promise<IBook | null> => {
   const token = data.token as string;
 
   const userData = await User.findOne({
@@ -39,7 +49,10 @@ const getSingleBook = async (id: string): Promise<IBook | null> => {
   return result;
 };
 const deleteSingleBook = async (
-  data: object,
+  data: {
+    token: string;
+    uid: string;
+  },
   id: string
 ): Promise<IBook | null | object | undefined> => {
   const find = await User.findOne({
@@ -49,7 +62,7 @@ const deleteSingleBook = async (
   if (find) {
     if (find?._id.toString() === data?.uid) {
       const result = await Book.findByIdAndDelete(id);
-      console.log(find, data,id);
+      console.log(find, data, id);
       return result;
     } else {
       new ApiError(httpStatus.UNAUTHORIZED, "No Authorized");
