@@ -4,7 +4,7 @@ import { IUser } from "./user.interface";
 import { User } from "./user.model";
 // get all last 10 books
 const signIn = async (data: object): Promise<IUser | null> => {
-  console.log(data);
+  
   const result = await User.findOne({
     ...data,
   });
